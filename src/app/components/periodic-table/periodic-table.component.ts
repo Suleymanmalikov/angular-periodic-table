@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatTableModule } from '@angular/material/table';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { debounceTime } from 'rxjs/operators';
-import { NgIf, AsyncPipe } from '@angular/common';
+import { NgIf, NgForOf, AsyncPipe, CommonModule } from '@angular/common'; // Import CommonModule
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
@@ -24,8 +25,11 @@ import { EditDialogComponent } from '../edit-dialog/edit-dialog.component';
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
+    MatCheckboxModule,
     NgIf,
+    NgForOf,
     AsyncPipe,
+    CommonModule, // Add CommonModule here
   ],
 })
 export class PeriodicTableComponent implements OnInit {
@@ -38,6 +42,13 @@ export class PeriodicTableComponent implements OnInit {
   ];
   dataSource: PeriodicElement[] = [];
   filterForm: FormGroup;
+  columnVisibility: { [key: string]: boolean } = {
+    position: true,
+    name: true,
+    weight: true,
+    symbol: true,
+    actions: true,
+  };
 
   constructor(
     private elementDataService: ElementDataService,
@@ -91,5 +102,12 @@ export class PeriodicTableComponent implements OnInit {
         this.elementDataService.updateElement(result);
       }
     });
+  }
+
+  toggleColumn(column: string): void {
+    this.columnVisibility[column] = !this.columnVisibility[column];
+    this.displayedColumns = Object.keys(this.columnVisibility).filter(
+      (key) => this.columnVisibility[key]
+    );
   }
 }
