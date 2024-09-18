@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatTableModule } from '@angular/material/table';
 import { debounceTime } from 'rxjs/operators';
@@ -37,34 +37,46 @@ export class PeriodicTableComponent implements OnInit {
     'actions',
   ];
   dataSource: PeriodicElement[] = [];
-  filterControl = new FormControl('');
+  filterForm: FormGroup;
 
   constructor(
     private elementDataService: ElementDataService,
     public dialog: MatDialog
-  ) {}
+  ) {
+    this.filterForm = new FormGroup({
+      name: new FormControl(''),
+      weight: new FormControl(''),
+      symbol: new FormControl(''),
+    });
+  }
 
   ngOnInit(): void {
     this.elementDataService.getElements().subscribe((data) => {
       this.dataSource = data;
     });
 
-    this.filterControl.valueChanges
+    this.filterForm.valueChanges
       .pipe(debounceTime(2000))
-      .subscribe((filterValue) => {
-        this.applyFilter(filterValue || '');
+      .subscribe((filterValues) => {
+        this.applyFilter(filterValues);
       });
   }
 
-  applyFilter(filterValue: string): void {
-    const lowercaseFilter = filterValue.toLowerCase();
+  applyFilter(filterValues: any): void {
+    const { name, weight, symbol } = filterValues;
+    const lowercaseName = name.toLowerCase();
+    const lowercaseSymbol = symbol.toLowerCase();
+
     this.elementDataService.getElements().subscribe((data) => {
-      this.dataSource = data.filter(
-        (element) =>
-          element.name.toLowerCase().includes(lowercaseFilter) ||
-          element.weight.toString().includes(lowercaseFilter) ||
-          element.symbol.toLowerCase().includes(lowercaseFilter)
-      );
+      this.dataSource = data.filter((element) => {
+        const matchesName = element.name.toLowerCase().includes(lowercaseName);
+        const matchesWeight = element.weight.toString().includes(weight);
+        const matchesSymbol = element.symbol
+          .toLowerCase()
+          .includes(lowercaseSymbol);
+
+        return matchesName && matchesWeight && matchesSymbol;
+      });
     });
   }
 

@@ -1,8 +1,21 @@
 <div class="container">
-    <mat-form-field appearance="fill">
-        <mat-label>Filter elements</mat-label>
-        <input matInput [formControl]="filterControl" placeholder="Filter by name, weight, or symbol">
-    </mat-form-field>
+    <form [formGroup]="filterForm">
+        <mat-form-field appearance="fill">
+            <mat-label>Filter by name</mat-label>
+            <input matInput formControlName="name" placeholder="Enter name">
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+            <mat-label>Filter by weight</mat-label>
+            <input matInput formControlName="weight" placeholder="Enter weight">
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+            <mat-label>Filter by symbol</mat-label>
+            <input matInput formControlName="symbol" placeholder="Enter symbol">
+        </mat-form-field>
+
+    </form>
 
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
         <ng-container matColumnDef="position">
