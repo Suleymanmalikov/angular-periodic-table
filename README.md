@@ -1,27 +1,83 @@
-# PeriodicTableApp
+# Periodic Table App
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.2.
+## Overview
 
-## Development server
+The Periodic Table App is a web application that displays a periodic table with features for filtering, editing, and managing elements. Built using Angular and Angular Material, this application offers a user-friendly interface for interacting with periodic elements.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Features
 
-## Code scaffolding
+- **Filter Elements**: Filter elements by name, weight, and symbol.
+- **Edit Elements**: Open a dialog to edit element details such as name, weight, and symbol.
+- **Responsive Design**: The application is designed to be responsive and works well on various screen sizes.
+- **Loading State**: A loading spinner is shown while data is being fetched or filtered.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Technologies Used
 
-## Build
+- Angular
+- Angular Material
+- RxJS
+- CSS Flexbox/Grid
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+## Installation
 
-## Running unit tests
+1. **Clone the Repository**
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+   ```bash
+   git clone https://github.com/Suleymanmalikov/angular-periodic-table.git
+   ```
 
-## Running end-to-end tests
+````
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+2. **Navigate to the Project Directory**
 
-## Further help
+   ```bash
+   cd periodic-table-app
+   ```
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+3. **Install Dependencies**
+
+   Make sure you have [Node.js](https://nodejs.org/) installed. Then, run:
+
+   ```bash
+   npm install
+   ```
+
+## Running the Application
+
+To run the application in development mode, use:
+
+```bash
+ng serve
+```
+
+This will start the development server and you can view the application at `http://localhost:4200/`.
+
+## Building for Production
+
+To build the application for production, use:
+
+```bash
+ng build --prod
+```
+
+The output will be placed in the `dist/` directory.
+
+## Project Structure
+
+- **src/app**: Contains Angular components, services, and models.
+  - **components/**: Contains reusable Angular components.
+    - `app.component.ts`: Main application component.
+    - `periodic-table.component.ts`: Component displaying the periodic table.
+    - `edit-dialog.component.ts`: Dialog component for editing elements.
+  - **services/**: Contains services for data handling.
+    - `element-data.service.ts`: Service for fetching and updating element data.
+  - **models/**: Contains TypeScript interfaces and models.
+    - `periodic-element.ts`: Interface representing a periodic element.
+  - **app.component.html**: Template for the main application component.
+  - **periodic-table.component.html**: Template for the periodic table component.
+  - **edit-dialog.component.html**: Template for the edit dialog component.
+  - **app.component.css**: Styles for the main application component.
+  - **periodic-table.component.css**: Styles for the periodic table component.
+  - **edit-dialog.component.css**: Styles for the edit dialog component.
+
+````
