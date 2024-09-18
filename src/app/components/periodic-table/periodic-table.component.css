@@ -1,3 +1,80 @@
+.container {
+  padding: 16px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+form {
+  display: grid;
+  grid-template-columns: 3fr 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
 .column-toggle {
-  margin-bottom: 20px;
+  margin-bottom: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.column-toggle mat-checkbox {
+  font-size: 14px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th.mat-header-cell,
+td.mat-cell {
+  padding: 12px;
+  text-align: left;
+}
+
+th.mat-header-cell {
+  background-color: #f5f5f5;
+  color: #333;
+}
+
+td.mat-cell {
+  border-bottom: 1px solid #ddd;
+}
+
+button.mat-button {
+  font-size: 14px;
+  color: #007bff;
+}
+
+button.mat-button:hover {
+  color: #0056b3;
+  background-color: #e7f0ff;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 8px;
+  }
+
+  form {
+    gap: 12px;
+  }
+
+  .column-toggle {
+    flex-direction: column;
+  }
+
+  table {
+    font-size: 12px;
+  }
+
+  th.mat-header-cell,
+  td.mat-cell {
+    padding: 8px;
+  }
 }
