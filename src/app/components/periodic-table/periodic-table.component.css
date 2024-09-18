@@ -6,7 +6,7 @@
 
 form {
   display: grid;
-  grid-template-columns: 3fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   gap: 16px;
   margin-bottom: 24px;
 }
@@ -25,23 +25,10 @@ mat-form-field {
 .column-toggle mat-checkbox {
   font-size: 14px;
 }
-/* .table-container {
-  position: relative;
-  opacity: 0;
-  transition: opacity 0.5s ease-in-out;
-} */
+
 table {
   width: 100%;
   border-collapse: collapse;
-  animation: opac 0.4s ease-in-out;
-}
-@keyframes opac {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
 }
 
 th.mat-header-cell,
@@ -75,6 +62,7 @@ button.mat-button:hover {
   }
 
   form {
+    grid-template-columns: 1fr;
     gap: 12px;
   }
 
@@ -83,7 +71,7 @@ button.mat-button:hover {
   }
 
   table {
-    font-size: 12px;
+    font-size: 14px;
   }
 
   th.mat-header-cell,
@@ -97,7 +85,6 @@ button.mat-button:hover {
   justify-content: center;
   align-items: center;
   height: 50vh;
-  transition: opacity 0.5s ease-in-out;
 }
 
 .loader {
