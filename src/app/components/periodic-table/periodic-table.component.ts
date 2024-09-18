@@ -54,20 +54,15 @@ export class PeriodicTableComponent implements OnInit {
   selectedColumns: string[] = [];
   columnNames: string[] = ['position', 'name', 'weight', 'symbol', 'actions'];
   loading = false;
+  noResultsFound = false;
 
   constructor(
     private elementDataService: ElementDataService,
     public dialog: MatDialog
   ) {
     this.filterForm = new FormGroup({
-      name: new FormControl(''),
-      weight: new FormControl(''),
-      symbol: new FormControl(''),
+      filterValue: new FormControl(''),
     });
-  }
-
-  get allColumnsVisible(): boolean {
-    return Object.values(this.columnVisibility).every((value) => value);
   }
 
   ngOnInit(): void {
@@ -96,27 +91,26 @@ export class PeriodicTableComponent implements OnInit {
 
   applyFilter(filterValues: any): void {
     this.loading = true;
-    const { name, weight, symbol } = filterValues;
-    const lowercaseName = name.toLowerCase();
-    const lowercaseSymbol = symbol.toLowerCase();
+    const filterValue = filterValues.filterValue.toLowerCase().trim();
 
     this.elementDataService
       .getElements()
-      .pipe(delay(1000))
+      .pipe(delay(2000))
       .subscribe((data) => {
-        this.dataSource = data.filter((element) => {
-          const matchesName = element.name
-            .toLowerCase()
-            .includes(lowercaseName);
-          // const matchesWeight = element.weight.toString().includes(weight);
-          const matchesWeight = element.weight.toString().startsWith(weight);
-
+        const filteredData = data.filter((element) => {
+          const matchesName = element.name.toLowerCase().includes(filterValue);
+          const matchesWeight = element.weight
+            .toString()
+            .startsWith(filterValue);
           const matchesSymbol = element.symbol
             .toLowerCase()
-            .includes(lowercaseSymbol);
+            .includes(filterValue);
 
-          return matchesName && matchesWeight && matchesSymbol;
+          return matchesName || matchesWeight || matchesSymbol;
         });
+
+        this.dataSource = filteredData;
+        this.noResultsFound = filteredData.length === 0;
         this.loading = false;
       });
   }
