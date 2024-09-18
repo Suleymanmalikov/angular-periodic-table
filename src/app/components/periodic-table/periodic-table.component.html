@@ -1,5 +1,4 @@
 <div class="container">
-    <!-- Filter Form -->
     <form [formGroup]="filterForm">
         <mat-form-field appearance="fill">
             <mat-label>Filter by name</mat-label>
@@ -17,15 +16,17 @@
         </mat-form-field>
     </form>
 
-    <!-- Column Visibility Toggle -->
     <div class="column-toggle">
-        <mat-checkbox *ngFor="let column of ['position', 'name', 'weight', 'symbol', 'actions']"
-            [checked]="columnVisibility[column]" (change)="toggleColumn(column)">
+        <mat-checkbox [checked]="allColumnsVisible" (change)="toggleColumn('all', $event.checked)">
+            All
+        </mat-checkbox>
+
+        <mat-checkbox *ngFor="let column of columnNames" [checked]="columnVisibility[column]"
+            (change)="toggleColumn(column, $event.checked)">
             {{ column | titlecase }}
         </mat-checkbox>
     </div>
 
-    <!-- Data Table -->
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
         <ng-container *ngIf="columnVisibility['position']" matColumnDef="position">
             <th mat-header-cell *matHeaderCellDef> No. </th>

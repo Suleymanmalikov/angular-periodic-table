@@ -4,7 +4,7 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatTableModule } from '@angular/material/table';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { debounceTime } from 'rxjs/operators';
-import { NgIf, NgForOf, AsyncPipe, CommonModule } from '@angular/common'; // Import CommonModule
+import { NgIf, NgForOf, AsyncPipe, CommonModule } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
@@ -29,7 +29,7 @@ import { EditDialogComponent } from '../edit-dialog/edit-dialog.component';
     NgIf,
     NgForOf,
     AsyncPipe,
-    CommonModule, // Add CommonModule here
+    CommonModule,
   ],
 })
 export class PeriodicTableComponent implements OnInit {
@@ -59,6 +59,14 @@ export class PeriodicTableComponent implements OnInit {
       weight: new FormControl(''),
       symbol: new FormControl(''),
     });
+  }
+
+  get allColumnsVisible(): boolean {
+    return Object.values(this.columnVisibility).every((value) => value);
+  }
+
+  get columnNames(): string[] {
+    return ['position', 'name', 'weight', 'symbol', 'actions'];
   }
 
   ngOnInit(): void {
@@ -104,10 +112,29 @@ export class PeriodicTableComponent implements OnInit {
     });
   }
 
-  toggleColumn(column: string): void {
-    this.columnVisibility[column] = !this.columnVisibility[column];
-    this.displayedColumns = Object.keys(this.columnVisibility).filter(
-      (key) => this.columnVisibility[key]
-    );
+  toggleColumn(column: string, checked: boolean): void {
+    if (column === 'all') {
+      const allChecked = checked;
+      Object.keys(this.columnVisibility).forEach((key) => {
+        this.columnVisibility[key] = allChecked;
+      });
+      this.displayedColumns = allChecked
+        ? Object.keys(this.columnVisibility)
+        : [];
+    } else {
+      this.columnVisibility[column] = checked;
+      this.displayedColumns = Object.keys(this.columnVisibility).filter(
+        (key) => this.columnVisibility[key]
+      );
+      if (!this.displayedColumns.length) {
+        this.displayedColumns = [
+          'position',
+          'name',
+          'weight',
+          'symbol',
+          'actions',
+        ];
+      }
+    }
   }
 }
