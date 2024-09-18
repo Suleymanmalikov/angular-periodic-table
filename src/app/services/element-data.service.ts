@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+
 import { PeriodicElement } from '../models/periodic-element';
 
 @Injectable({
@@ -34,6 +35,6 @@ export class ElementDataService {
       el.position === updatedElement.position ? updatedElement : el
     );
     this.ELEMENT_DATA = updatedData;
-    this.elementsSubject.next([...this.ELEMENT_DATA]); // Emit the new data
+    this.elementsSubject.next([...this.ELEMENT_DATA]);
   }
 }
