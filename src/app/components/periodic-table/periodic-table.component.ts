@@ -49,6 +49,7 @@ export class PeriodicTableComponent implements OnInit {
     symbol: true,
     actions: true,
   };
+  loading = false;
 
   constructor(
     private elementDataService: ElementDataService,
@@ -72,22 +73,25 @@ export class PeriodicTableComponent implements OnInit {
   ngOnInit(): void {
     this.loadData();
     this.filterForm.valueChanges
-      .pipe(debounceTime(2000))
+      .pipe(debounceTime(300))
       .subscribe((filterValues) => {
         this.applyFilter(filterValues);
       });
   }
 
   loadData(): void {
+    this.loading = true;
     this.elementDataService
       .getElements()
       .pipe(delay(1000))
       .subscribe((data) => {
         this.dataSource = data;
+        this.loading = false;
       });
   }
 
   applyFilter(filterValues: any): void {
+    this.loading = true;
     const { name, weight, symbol } = filterValues;
     const lowercaseName = name.toLowerCase();
     const lowercaseSymbol = symbol.toLowerCase();
@@ -107,6 +111,7 @@ export class PeriodicTableComponent implements OnInit {
 
           return matchesName && matchesWeight && matchesSymbol;
         });
+        this.loading = false;
       });
   }
 
