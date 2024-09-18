@@ -14,18 +14,16 @@
             <mat-label>Filter by symbol</mat-label>
             <input matInput formControlName="symbol" placeholder="Enter symbol">
         </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label>Columns</mat-label>
+            <mat-select [(value)]="selectedColumns" (selectionChange)="onColumnSelectionChange($event.value)" multiple>
+                <mat-option *ngFor="let column of columnNames" [value]="column">
+                    <mat-label>{{ column | titlecase }}</mat-label>
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
     </form>
 
-    <div class="column-toggle">
-        <mat-checkbox [checked]="allColumnsVisible" (change)="toggleColumn('all', $event.checked)">
-            All
-        </mat-checkbox>
-
-        <mat-checkbox *ngFor="let column of columnNames" [checked]="columnVisibility[column]"
-            (change)="toggleColumn(column, $event.checked)">
-            {{ column | titlecase }}
-        </mat-checkbox>
-    </div>
 
     <div *ngIf="loading" class="loading-container">
         <div class="loader">

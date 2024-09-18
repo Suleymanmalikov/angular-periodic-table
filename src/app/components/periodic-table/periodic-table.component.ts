@@ -8,6 +8,7 @@ import { NgIf, NgForOf, AsyncPipe, CommonModule } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
+import { MatSelectModule } from '@angular/material/select';
 
 import { ElementDataService } from '../../services/element-data.service';
 import { PeriodicElement } from '../../models/periodic-element';
@@ -26,6 +27,7 @@ import { EditDialogComponent } from '../edit-dialog/edit-dialog.component';
     MatInputModule,
     MatButtonModule,
     MatCheckboxModule,
+    MatSelectModule,
     NgIf,
     NgForOf,
     AsyncPipe,
@@ -49,6 +51,8 @@ export class PeriodicTableComponent implements OnInit {
     symbol: true,
     actions: true,
   };
+  selectedColumns: string[] = [];
+  columnNames: string[] = ['position', 'name', 'weight', 'symbol', 'actions'];
   loading = false;
 
   constructor(
@@ -66,10 +70,6 @@ export class PeriodicTableComponent implements OnInit {
     return Object.values(this.columnVisibility).every((value) => value);
   }
 
-  get columnNames(): string[] {
-    return ['position', 'name', 'weight', 'symbol', 'actions'];
-  }
-
   ngOnInit(): void {
     this.loadData();
     this.filterForm.valueChanges
@@ -77,6 +77,10 @@ export class PeriodicTableComponent implements OnInit {
       .subscribe((filterValues) => {
         this.applyFilter(filterValues);
       });
+
+    this.selectedColumns = this.columnNames.filter(
+      (column) => this.columnVisibility[column]
+    );
   }
 
   loadData(): void {
@@ -128,29 +132,13 @@ export class PeriodicTableComponent implements OnInit {
     });
   }
 
-  toggleColumn(column: string, checked: boolean): void {
-    if (column === 'all') {
-      const allChecked = checked;
-      Object.keys(this.columnVisibility).forEach((key) => {
-        this.columnVisibility[key] = allChecked;
-      });
-      this.displayedColumns = allChecked
-        ? Object.keys(this.columnVisibility)
-        : [];
-    } else {
-      this.columnVisibility[column] = checked;
-      this.displayedColumns = Object.keys(this.columnVisibility).filter(
-        (key) => this.columnVisibility[key]
-      );
-      if (!this.displayedColumns.length) {
-        this.displayedColumns = [
-          'position',
-          'name',
-          'weight',
-          'symbol',
-          'actions',
-        ];
-      }
-    }
+  onColumnSelectionChange(columns: string[]): void {
+    this.selectedColumns = columns;
+    this.columnVisibility = this.columnNames.reduce((acc, column) => {
+      acc[column] = columns.includes(column);
+      return acc;
+    }, {} as { [key: string]: boolean });
+
+    this.displayedColumns = columns;
   }
 }
