@@ -10,5 +10,5 @@ import { PeriodicTableComponent } from './components/periodic-table/periodic-tab
   imports: [PeriodicTableComponent],
 })
 export class AppComponent {
-  title = 'Periodic Table App';
+  title = 'Periodic Table App.';
 }
