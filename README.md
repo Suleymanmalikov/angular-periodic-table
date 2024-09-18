@@ -26,7 +26,7 @@ The Periodic Table App is a web application that displays a periodic table with 
    git clone https://github.com/Suleymanmalikov/angular-periodic-table.git
    ```
 
-````
+
 
 2. **Navigate to the Project Directory**
 
@@ -80,4 +80,4 @@ The output will be placed in the `dist/` directory.
   - **periodic-table.component.css**: Styles for the periodic table component.
   - **edit-dialog.component.css**: Styles for the edit dialog component.
 
-````
+
