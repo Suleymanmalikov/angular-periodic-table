@@ -108,7 +108,9 @@ export class PeriodicTableComponent implements OnInit {
           const matchesName = element.name
             .toLowerCase()
             .includes(lowercaseName);
-          const matchesWeight = element.weight.toString().includes(weight);
+          // const matchesWeight = element.weight.toString().includes(weight);
+          const matchesWeight = element.weight.toString().startsWith(weight);
+
           const matchesSymbol = element.symbol
             .toLowerCase()
             .includes(lowercaseSymbol);
