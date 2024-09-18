@@ -35,4 +35,8 @@ export class EditDialogComponent {
   onNoClick(): void {
     this.dialogRef.close();
   }
+
+  onSave(): void {
+    this.dialogRef.close(this.data);
+  }
 }
