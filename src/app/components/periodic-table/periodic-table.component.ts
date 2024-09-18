@@ -3,7 +3,7 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatTableModule } from '@angular/material/table';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { debounceTime } from 'rxjs/operators';
+import { debounceTime, delay } from 'rxjs/operators';
 import { NgIf, NgForOf, AsyncPipe, CommonModule } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -70,14 +70,20 @@ export class PeriodicTableComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.elementDataService.getElements().subscribe((data) => {
-      this.dataSource = data;
-    });
-
+    this.loadData();
     this.filterForm.valueChanges
       .pipe(debounceTime(2000))
       .subscribe((filterValues) => {
         this.applyFilter(filterValues);
+      });
+  }
+
+  loadData(): void {
+    this.elementDataService
+      .getElements()
+      .pipe(delay(1000))
+      .subscribe((data) => {
+        this.dataSource = data;
       });
   }
 
@@ -86,17 +92,22 @@ export class PeriodicTableComponent implements OnInit {
     const lowercaseName = name.toLowerCase();
     const lowercaseSymbol = symbol.toLowerCase();
 
-    this.elementDataService.getElements().subscribe((data) => {
-      this.dataSource = data.filter((element) => {
-        const matchesName = element.name.toLowerCase().includes(lowercaseName);
-        const matchesWeight = element.weight.toString().includes(weight);
-        const matchesSymbol = element.symbol
-          .toLowerCase()
-          .includes(lowercaseSymbol);
+    this.elementDataService
+      .getElements()
+      .pipe(delay(1000))
+      .subscribe((data) => {
+        this.dataSource = data.filter((element) => {
+          const matchesName = element.name
+            .toLowerCase()
+            .includes(lowercaseName);
+          const matchesWeight = element.weight.toString().includes(weight);
+          const matchesSymbol = element.symbol
+            .toLowerCase()
+            .includes(lowercaseSymbol);
 
-        return matchesName && matchesWeight && matchesSymbol;
+          return matchesName && matchesWeight && matchesSymbol;
+        });
       });
-    });
   }
 
   openEditDialog(element: PeriodicElement): void {
